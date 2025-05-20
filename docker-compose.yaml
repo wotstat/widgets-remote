@@ -1,0 +1,14 @@
+# docker compose -p dev -f docker-compose.yaml -f docker-compose.prod.yaml up;
+
+services:
+  remote:
+    container_name: remote
+    restart: always
+    build:
+      dockerfile: ./Dockerfile
+    environment:
+      - ADMIN_TOKEN
+    ports:
+      - "9106:3000"
+    volumes:
+      - ../../SQLite:/app/SQLite
