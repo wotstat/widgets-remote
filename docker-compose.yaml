@@ -11,4 +11,4 @@ services:
     ports:
       - "9106:3000"
     volumes:
-      - ../../SQLite:/app/SQLite
+      - ../SQLite:/app/SQLite
