@@ -45,12 +45,15 @@ export function stateForChannel(channel: string) {
   return state
 }
 
+const hasher = new Bun.CryptoHasher("sha256");
 
 export const app = new Hono()
 app.post('/state', async c => {
-  const channel = c.req.query('channel')
+  const channelKey = c.req.query('private-key')
 
-  if (!channel) return c.json({ message: 'No channel provided' }, 400)
+  if (!channelKey) return c.json({ message: 'No channel-key provided' }, 400)
+
+  const channel = hasher.update(channelKey).digest('base64').replace(/[^a-zA-Z0-9]/g, '').substring(0, 10);
 
   const body = await c.req.json()
   if (!body) return c.json({ message: 'No body provided' }, 400)
